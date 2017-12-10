@@ -31,7 +31,7 @@ window.addEventListener('load', function () {
   if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.reactNative) {
     window.web3_postMessageParent = window.webkit.messageHandlers.reactNative
   }
-}
+})
 
 // static results
 engine.addProvider(new FixtureSubprovider({
