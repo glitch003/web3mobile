@@ -47,6 +47,6 @@
     "bignumber.js": "^5.0.0",
     "fs": "0.0.1-security",
     "web3": "^1.0.0-beta.26",
-    "web3-provider-engine": "^13.3.3"
+    "web3-provider-engine": "git+https://github.com/glitch003/provider-engine.git"
   }
 }

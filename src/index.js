@@ -9,16 +9,20 @@ const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracke
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js')
 
 function defineGlobalCallback (funcName, cb) {
-  if (typeof window.web3mobileCallbacks === 'undefined') {
-    window.web3mobileCallbacks = {}
+  if (typeof window.web3Mobile._bridge_callbacks === 'undefined') {
+    window.web3Mobile._bridge_callbacks = {}
   }
-  if (typeof window.web3mobileCallbacks[funcName] === 'undefined') {
-    window.web3mobileCallbacks[funcName] = {}
+  if (typeof window.web3Mobile._bridge_callbacks[funcName] === 'undefined') {
+    window.web3Mobile._bridge_callbacks[funcName] = {}
   }
   // generate a nice random key
   let randomKey = Math.random().toString(36).slice(2) + '_' + Date.now().toString()
-  window.web3mobileCallbacks[funcName][randomKey] = cb
+  window.web3Mobile._bridge_callbacks[funcName][randomKey] = cb
   return randomKey // return key
+}
+
+if (typeof window.web3Mobile === 'undefined') {
+  window.web3Mobile = {}
 }
 
 var engine = new ProviderEngine()
@@ -162,6 +166,17 @@ engine.on('error', function (err) {
 })
 
 engine.start()
+
+// set window.web3Mobile.selectedAddress and window.web3Mobile.networkVersion
+web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, addresses) {
+  if (err) return console.err(err)
+  window.web3Mobile.selectedAddress = addresses[0]
+})
+
+web3.currentProvider.sendAsync({method: 'net_version'}, function (err, version) {
+  if (err) return console.err(err)
+  window.web3Mobile.networkVersion = version
+})
 
 // var web3 = new Web3();
 // web3.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/'))
