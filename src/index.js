@@ -169,12 +169,18 @@ engine.start()
 
 // set window.web3Mobile.selectedAddress and window.web3Mobile.networkVersion
 web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, addresses) {
-  if (err) return console.err(err)
+  if (err) {
+    console.err(err)
+    return
+  }
   window.web3Mobile.selectedAddress = addresses[0]
 })
 
 web3.currentProvider.sendAsync({method: 'net_version'}, function (err, version) {
-  if (err) return console.err(err)
+  if (err) {
+    console.err(err)
+    return
+  }
   window.web3Mobile.networkVersion = version
 })
 
