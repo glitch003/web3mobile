@@ -169,8 +169,9 @@ engine.start()
 
 // set window.web3Mobile.selectedAddress and window.web3Mobile.networkVersion
 web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, result) {
+  console.log('attempted to get accounts on first load.  result: ' + JSON.stringify(result))
   if (err) {
-    console.err(err)
+    console.error(err)
     return
   }
   web3.eth.defaultAccount = result.result[0]
@@ -178,8 +179,9 @@ web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, result) 
 })
 
 web3.currentProvider.sendAsync({method: 'net_version'}, function (err, result) {
+  console.log('attempted to get net version on first load result: ' + JSON.stringify(result))
   if (err) {
-    console.err(err)
+    console.error(err)
     return
   }
   window.web3Mobile.networkVersion = result.result
