@@ -173,6 +173,7 @@ web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, result) 
     console.err(err)
     return
   }
+  web3.eth.defaultAccount = result.result[0]
   window.web3Mobile.selectedAddress = result.result[0]
 })
 

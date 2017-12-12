@@ -46,7 +46,7 @@
   "dependencies": {
     "bignumber.js": "^5.0.0",
     "fs": "0.0.1-security",
-    "web3": "^1.0.0-beta.26",
+    "web3": "git+https://github.com/ethereum/web3.js.git#cd0b83092118b2d6653937d705dfc6a990b7ec20",
     "web3-provider-engine": "git+https://github.com/glitch003/provider-engine.git"
   }
 }
