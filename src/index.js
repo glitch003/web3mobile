@@ -168,20 +168,20 @@ engine.on('error', function (err) {
 engine.start()
 
 // set window.web3Mobile.selectedAddress and window.web3Mobile.networkVersion
-web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, addresses) {
+web3.currentProvider.sendAsync({method: 'eth_accounts'}, function (err, result) {
   if (err) {
     console.err(err)
     return
   }
-  window.web3Mobile.selectedAddress = addresses[0]
+  window.web3Mobile.selectedAddress = result.result[0]
 })
 
-web3.currentProvider.sendAsync({method: 'net_version'}, function (err, version) {
+web3.currentProvider.sendAsync({method: 'net_version'}, function (err, result) {
   if (err) {
     console.err(err)
     return
   }
-  window.web3Mobile.networkVersion = version
+  window.web3Mobile.networkVersion = result.result
 })
 
 // var web3 = new Web3();
