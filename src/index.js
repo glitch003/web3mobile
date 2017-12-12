@@ -17,6 +17,7 @@ function defineGlobalCallback (funcName, cb) {
   }
   // generate a nice random key
   let randomKey = Math.random().toString(36).slice(2) + '_' + Date.now().toString()
+  console.log('web3mobile - defining global callback for ' + funcName + ' and key ' + randomKey)
   window.web3Mobile._bridge_callbacks[funcName][randomKey] = cb
   return randomKey // return key
 }
@@ -31,7 +32,7 @@ var web3 = new Web3(engine)
 window.web3_postMessageParent = window
 
 window.addEventListener('load', function () {
-  console.log('web3mobile onload')
+  console.log('web3mobile - onload')
   if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.reactNative) {
     window.web3_postMessageParent = window.webkit.messageHandlers.reactNative
   }
