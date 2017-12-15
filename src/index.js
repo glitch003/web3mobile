@@ -8,7 +8,7 @@ const HookedWalletSubprovider = require('web3-provider-engine/subproviders/hooke
 const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js')
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js')
 
-const web3MobileDebug = false
+const web3MobileDebug = true
 
 function defineGlobalCallback (funcName, cb, data = {}) {
   if (typeof window.web3Mobile._bridge_callbacks === 'undefined') {
