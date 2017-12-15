@@ -8,7 +8,9 @@ const HookedWalletSubprovider = require('web3-provider-engine/subproviders/hooke
 const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js')
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js')
 
-function defineGlobalCallback (funcName, cb) {
+const web3MobileDebug = false
+
+function defineGlobalCallback (funcName, cb, data = {}) {
   if (typeof window.web3Mobile._bridge_callbacks === 'undefined') {
     window.web3Mobile._bridge_callbacks = {}
   }
@@ -18,8 +20,18 @@ function defineGlobalCallback (funcName, cb) {
   // generate a nice random key
   let randomKey = Math.random().toString(36).slice(2) + '_' + Date.now().toString()
   // console.log('web3mobile - defining global callback for ' + funcName + ' and key ' + randomKey)
-  window.web3Mobile._bridge_callbacks[funcName][randomKey] = cb
+  window.web3Mobile._bridge_callbacks[funcName][randomKey] = {
+    callback: cb,
+    data: data
+  }
   return randomKey // return key
+}
+
+function web3MobileLog (toLog) {
+  if (!web3MobileDebug) {
+    return
+  }
+  console.log(toLog)
 }
 
 if (typeof window.web3Mobile === 'undefined') {
@@ -32,7 +44,7 @@ var web3 = new Web3(engine)
 window.web3_postMessageParent = window
 
 window.addEventListener('load', function () {
-  console.log('web3mobile - onload')
+  web3MobileLog('web3mobile - onload')
   if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.reactNative) {
     window.web3_postMessageParent = window.webkit.messageHandlers.reactNative
   }
@@ -62,7 +74,7 @@ engine.addProvider(new NonceSubprovider())
 // id mgmt
 engine.addProvider(new HookedWalletSubprovider({
   getAccounts: function (cb) {
-    console.log('getAccounts called')
+    web3MobileLog('getAccounts called')
     let callbackKey = defineGlobalCallback('getAccounts', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'getAccounts',
@@ -71,10 +83,10 @@ engine.addProvider(new HookedWalletSubprovider({
     // cb(null, ['0xdbd360F30097fB6d938dcc8B7b62854B36160B45'])
   },
   approveTransaction: function (tx, cb) {
-    console.log('approveTransaction called with tx ' + JSON.stringify(tx))
+    web3MobileLog('approveTransaction called with tx ' + JSON.stringify(tx))
     // ex transaction
     // {"from":"0x481e9dc15456d6e827c19b59a7114900f2a139c2","value":"0x16345785d8a0000","gas":"0x493e0","to":"0xde93ffe56ef019ab1c4dc9c6c575ebc292a40ef6","data":"0xa168562b000000000000000000000000481e9dc15456d6e827c19b59a7114900f2a139c20000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000949206d65776f7765640000000000000000000000000000000000000000000000"}
-    let callbackKey = defineGlobalCallback('approveTransaction', cb)
+    let callbackKey = defineGlobalCallback('approveTransaction', cb, {tx: tx})
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'approveTransaction',
       callbackKey: callbackKey,
@@ -82,7 +94,7 @@ engine.addProvider(new HookedWalletSubprovider({
     }))
   },
   signTransaction: function (tx, cb) {
-    console.log('signTransaction called with tx ' + JSON.stringify(tx))
+    web3MobileLog('signTransaction called with tx ' + JSON.stringify(tx))
     let callbackKey = defineGlobalCallback('signTransaction', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'signTransaction',
@@ -92,7 +104,7 @@ engine.addProvider(new HookedWalletSubprovider({
   },
   // old eth_sign
   approveMessage: function (msg, cb) {
-    console.log('approveMessage called with msg ' + JSON.stringify(msg))
+    web3MobileLog('approveMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('approveMessage', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'approveMessage',
@@ -101,7 +113,7 @@ engine.addProvider(new HookedWalletSubprovider({
     }))
   },
   signMessage: function (msg, cb) {
-    console.log('signMessage called with msg ' + JSON.stringify(msg))
+    web3MobileLog('signMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('signMessage', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'signMessage',
@@ -111,7 +123,7 @@ engine.addProvider(new HookedWalletSubprovider({
   },
   // new personal_sign
   approvePersonalMessage: function (msg, cb) {
-    console.log('approvePersonalMessage called with msg ' + JSON.stringify(msg))
+    web3MobileLog('approvePersonalMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('approvePersonalMessage', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'approvePersonalMessage',
@@ -120,7 +132,7 @@ engine.addProvider(new HookedWalletSubprovider({
     }))
   },
   approveTypedMessage: function (msg, cb) {
-    console.log('approveTypedMessage called with msg ' + JSON.stringify(msg))
+    web3MobileLog('approveTypedMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('approveTypedMessage', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'approveTypedMessage',
@@ -129,7 +141,7 @@ engine.addProvider(new HookedWalletSubprovider({
     }))
   },
   signPersonalMessage: function (msg, cb) {
-    console.log('signPersonalMessage called with msg ' + JSON.stringify(msg))
+    web3MobileLog('signPersonalMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('signPersonalMessage', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'signPersonalMessage',
@@ -138,7 +150,7 @@ engine.addProvider(new HookedWalletSubprovider({
     }))
   },
   signTypedMessage: function (msg, cb) {
-    console.log('signTypedMessage called with msg ' + JSON.stringify(msg))
+    web3MobileLog('signTypedMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('signTypedMessage', cb)
     window.web3_postMessageParent.postMessage(JSON.stringify({
       method: 'signTypedMessage',
@@ -154,11 +166,11 @@ engine.addProvider(new RpcSubprovider({
 }))
 
 // log new blocks
-engine.on('block', function (block) {
-  console.log('================================')
-  console.log('BLOCK CHANGED:', '#' + block.number.toString('hex'), '0x' + block.hash.toString('hex'))
-  console.log('================================')
-})
+// engine.on('block', function (block) {
+//   console.log('================================')
+//   console.log('BLOCK CHANGED:', '#' + block.number.toString('hex'), '0x' + block.hash.toString('hex'))
+//   console.log('================================')
+// })
 
 // network connectivity error
 engine.on('error', function (err) {
