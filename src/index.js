@@ -162,7 +162,7 @@ engine.addProvider(new HookedWalletSubprovider({
 
 // data source
 engine.addProvider(new RpcSubprovider({
-  rpcUrl: 'https://mainnet.infura.io/'
+  rpcUrl: window.web3Mobile.rpcUrl
 }))
 
 // log new blocks
