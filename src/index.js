@@ -31,7 +31,7 @@ function web3MobileLog (toLog) {
   if (!web3MobileDebug) {
     return
   }
-  console.log(toLog)
+  console.log('web3mobile - debug msg', toLog)
 }
 
 if (typeof window.web3Mobile === 'undefined') {
@@ -44,7 +44,7 @@ var web3 = new Web3(engine)
 window.web3_postMessageParent = window
 
 window.addEventListener('load', function () {
-  web3MobileLog('web3mobile - onload')
+  web3MobileLog('onload')
   if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.reactNative) {
     window.web3_postMessageParent = window.webkit.messageHandlers.reactNative
   }
@@ -102,25 +102,27 @@ engine.addProvider(new HookedWalletSubprovider({
       tx: tx
     }))
   },
-  // // old eth_sign
-  // approveMessage: function (msg, cb) {
-  //   web3MobileLog('approveMessage called with msg ' + JSON.stringify(msg))
-  //   let callbackKey = defineGlobalCallback('approveMessage', cb)
-  //   window.web3_postMessageParent.postMessage(JSON.stringify({
-  //     method: 'approveMessage',
-  //     callbackKey: callbackKey,
-  //     msg: msg
-  //   }))
-  // },
-  // signMessage: function (msg, cb) {
-  //   web3MobileLog('signMessage called with msg ' + JSON.stringify(msg))
-  //   let callbackKey = defineGlobalCallback('signMessage', cb)
-  //   window.web3_postMessageParent.postMessage(JSON.stringify({
-  //     method: 'signMessage',
-  //     callbackKey: callbackKey,
-  //     msg: msg
-  //   }))
-  // },
+  // old eth_sign
+  approveMessage: function (msg, cb) {
+    web3MobileLog('approveMessage called with msg ' + JSON.stringify(msg))
+    throw new Error('approveMessage has not been implemented by web3mobile yet. Try approvePersonalMessage. Sorry!')
+    // let callbackKey = defineGlobalCallback('approveMessage', cb)
+    // window.web3_postMessageParent.postMessage(JSON.stringify({
+    //   method: 'approveMessage',
+    //   callbackKey: callbackKey,
+    //   msg: msg
+    // }))
+  },
+  signMessage: function (msg, cb) {
+    web3MobileLog('signMessage called with msg ' + JSON.stringify(msg))
+    throw new Error('approveMessage has not been implemented by web3mobile yet. Try signPersonalMessage instead. Sorry!')
+    // let callbackKey = defineGlobalCallback('signMessage', cb)
+    // window.web3_postMessageParent.postMessage(JSON.stringify({
+    //   method: 'signMessage',
+    //   callbackKey: callbackKey,
+    //   msg: msg
+    // }))
+  },
   // new personal_sign
   approvePersonalMessage: function (msg, cb) {
     web3MobileLog('approvePersonalMessage called with msg ' + JSON.stringify(msg))
@@ -131,15 +133,16 @@ engine.addProvider(new HookedWalletSubprovider({
       msg: msg
     }))
   },
-  // approveTypedMessage: function (msg, cb) {
-  //   web3MobileLog('approveTypedMessage called with msg ' + JSON.stringify(msg))
-  //   let callbackKey = defineGlobalCallback('approveTypedMessage', cb)
-  //   window.web3_postMessageParent.postMessage(JSON.stringify({
-  //     method: 'approveTypedMessage',
-  //     callbackKey: callbackKey,
-  //     msg: msg
-  //   }))
-  // },
+  approveTypedMessage: function (msg, cb) {
+    web3MobileLog('approveTypedMessage called with msg ' + JSON.stringify(msg))
+    throw new Error('approveTypedMessage has not been implemented by web3mobile yet. Try approvePersonalMessage instead. Sorry!')
+    // let callbackKey = defineGlobalCallback('approveTypedMessage', cb)
+    // window.web3_postMessageParent.postMessage(JSON.stringify({
+    //   method: 'approveTypedMessage',
+    //   callbackKey: callbackKey,
+    //   msg: msg
+    // }))
+  },
   signPersonalMessage: function (msg, cb) {
     web3MobileLog('signPersonalMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('signPersonalMessage', cb)
@@ -148,16 +151,17 @@ engine.addProvider(new HookedWalletSubprovider({
       callbackKey: callbackKey,
       msg: msg
     }))
+  },
+  signTypedMessage: function (msg, cb) {
+    web3MobileLog('signTypedMessage called with msg ' + JSON.stringify(msg))
+    throw new Error('signTypedMessage has not been implemented by web3mobile yet. Try signPersonalMessage instead. Sorry!')
+    // let callbackKey = defineGlobalCallback('signTypedMessage', cb)
+    // window.web3_postMessageParent.postMessage(JSON.stringify({
+    //   method: 'signTypedMessage',
+    //   callbackKey: callbackKey,
+    //   msg: msg
+    // }))
   }
-  // signTypedMessage: function (msg, cb) {
-  //   web3MobileLog('signTypedMessage called with msg ' + JSON.stringify(msg))
-  //   let callbackKey = defineGlobalCallback('signTypedMessage', cb)
-  //   window.web3_postMessageParent.postMessage(JSON.stringify({
-  //     method: 'signTypedMessage',
-  //     callbackKey: callbackKey,
-  //     msg: msg
-  //   }))
-  // }
 }))
 
 // data source
