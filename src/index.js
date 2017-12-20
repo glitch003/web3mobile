@@ -102,25 +102,25 @@ engine.addProvider(new HookedWalletSubprovider({
       tx: tx
     }))
   },
-  // old eth_sign
-  approveMessage: function (msg, cb) {
-    web3MobileLog('approveMessage called with msg ' + JSON.stringify(msg))
-    let callbackKey = defineGlobalCallback('approveMessage', cb)
-    window.web3_postMessageParent.postMessage(JSON.stringify({
-      method: 'approveMessage',
-      callbackKey: callbackKey,
-      msg: msg
-    }))
-  },
-  signMessage: function (msg, cb) {
-    web3MobileLog('signMessage called with msg ' + JSON.stringify(msg))
-    let callbackKey = defineGlobalCallback('signMessage', cb)
-    window.web3_postMessageParent.postMessage(JSON.stringify({
-      method: 'signMessage',
-      callbackKey: callbackKey,
-      msg: msg
-    }))
-  },
+  // // old eth_sign
+  // approveMessage: function (msg, cb) {
+  //   web3MobileLog('approveMessage called with msg ' + JSON.stringify(msg))
+  //   let callbackKey = defineGlobalCallback('approveMessage', cb)
+  //   window.web3_postMessageParent.postMessage(JSON.stringify({
+  //     method: 'approveMessage',
+  //     callbackKey: callbackKey,
+  //     msg: msg
+  //   }))
+  // },
+  // signMessage: function (msg, cb) {
+  //   web3MobileLog('signMessage called with msg ' + JSON.stringify(msg))
+  //   let callbackKey = defineGlobalCallback('signMessage', cb)
+  //   window.web3_postMessageParent.postMessage(JSON.stringify({
+  //     method: 'signMessage',
+  //     callbackKey: callbackKey,
+  //     msg: msg
+  //   }))
+  // },
   // new personal_sign
   approvePersonalMessage: function (msg, cb) {
     web3MobileLog('approvePersonalMessage called with msg ' + JSON.stringify(msg))
@@ -131,15 +131,15 @@ engine.addProvider(new HookedWalletSubprovider({
       msg: msg
     }))
   },
-  approveTypedMessage: function (msg, cb) {
-    web3MobileLog('approveTypedMessage called with msg ' + JSON.stringify(msg))
-    let callbackKey = defineGlobalCallback('approveTypedMessage', cb)
-    window.web3_postMessageParent.postMessage(JSON.stringify({
-      method: 'approveTypedMessage',
-      callbackKey: callbackKey,
-      msg: msg
-    }))
-  },
+  // approveTypedMessage: function (msg, cb) {
+  //   web3MobileLog('approveTypedMessage called with msg ' + JSON.stringify(msg))
+  //   let callbackKey = defineGlobalCallback('approveTypedMessage', cb)
+  //   window.web3_postMessageParent.postMessage(JSON.stringify({
+  //     method: 'approveTypedMessage',
+  //     callbackKey: callbackKey,
+  //     msg: msg
+  //   }))
+  // },
   signPersonalMessage: function (msg, cb) {
     web3MobileLog('signPersonalMessage called with msg ' + JSON.stringify(msg))
     let callbackKey = defineGlobalCallback('signPersonalMessage', cb)
@@ -148,16 +148,16 @@ engine.addProvider(new HookedWalletSubprovider({
       callbackKey: callbackKey,
       msg: msg
     }))
-  },
-  signTypedMessage: function (msg, cb) {
-    web3MobileLog('signTypedMessage called with msg ' + JSON.stringify(msg))
-    let callbackKey = defineGlobalCallback('signTypedMessage', cb)
-    window.web3_postMessageParent.postMessage(JSON.stringify({
-      method: 'signTypedMessage',
-      callbackKey: callbackKey,
-      msg: msg
-    }))
   }
+  // signTypedMessage: function (msg, cb) {
+  //   web3MobileLog('signTypedMessage called with msg ' + JSON.stringify(msg))
+  //   let callbackKey = defineGlobalCallback('signTypedMessage', cb)
+  //   window.web3_postMessageParent.postMessage(JSON.stringify({
+  //     method: 'signTypedMessage',
+  //     callbackKey: callbackKey,
+  //     msg: msg
+  //   }))
+  // }
 }))
 
 // data source
